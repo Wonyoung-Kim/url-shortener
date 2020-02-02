@@ -19,4 +19,14 @@ public class BloomFilter {
 		}
 		return sum;
 	}
-}
+
+	public int[] runThroughHashFunctions(String s) {
+		int[] bitsToSet = new int[kHashFunctions];
+		int sumOfNumeric = getSumOfNumericValues(s); 
+		Random r = new Random(sumOfNumeric);
+		for (int i = 0; i < kHashFunctions; i++) {
+			int randNum = r.nextInt(bloomFilterSize);
+			bitsToSet[i] = randNum;
+		}
+		return bitsToSet;
+	}
