@@ -38,6 +38,15 @@ public class BloomFilter {
 		}
 		return true;
 	}
+
+	public boolean query(String s) {
+		int[] randomIndices = runThroughHashFunctions(s);
+		for (int i = 0; i < randomIndices.length; i++) {
+			if (!bloomFilterSet.get(randomIndices[i])) {
+				return false;
+			}
+		}
+		return true;
+	}
 }
-	
 	
