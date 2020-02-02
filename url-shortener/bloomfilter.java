@@ -30,3 +30,14 @@ public class BloomFilter {
 		}
 		return bitsToSet;
 	}
+
+	public boolean insert(String s) {
+		int[] randomIndices = runThroughHashFunctions(s);
+		for (int i = 0; i < randomIndices.length; i++) {
+			bloomFilterSet.set(randomIndices[i], true);
+		}
+		return true;
+	}
+}
+	
+	
