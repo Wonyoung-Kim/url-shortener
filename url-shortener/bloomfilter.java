@@ -19,4 +19,34 @@ public class BloomFilter {
 		}
 		return sum;
 	}
+
+	public int[] runThroughHashFunctions(String s) {
+		int[] bitsToSet = new int[kHashFunctions];
+		int sumOfNumeric = getSumOfNumericValues(s); 
+		Random r = new Random(sumOfNumeric);
+		for (int i = 0; i < kHashFunctions; i++) {
+			int randNum = r.nextInt(bloomFilterSize);
+			bitsToSet[i] = randNum;
+		}
+		return bitsToSet;
+	}
+
+	public boolean insert(String s) {
+		int[] randomIndices = runThroughHashFunctions(s);
+		for (int i = 0; i < randomIndices.length; i++) {
+			bloomFilterSet.set(randomIndices[i], true);
+		}
+		return true;
+	}
+
+	public boolean query(String s) {
+		int[] randomIndices = runThroughHashFunctions(s);
+		for (int i = 0; i < randomIndices.length; i++) {
+			if (!bloomFilterSet.get(randomIndices[i])) {
+				return false;
+			}
+		}
+		return true;
+	}
 }
+	
