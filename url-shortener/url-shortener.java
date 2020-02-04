@@ -13,8 +13,7 @@ public class URLShortener {
 
 	}
 
-	public String createShortenedURL(String longUrl, String forceShort) {
-		// return a shortened URL to the user for the long URL, and save it
+	public String createShortenedURL(String longUrl, String forceShort) { 
 		if (map.containsValue(longUrl)) {
 			for (String str : map.keySet()) {
 				if (map.get(str).equals(longUrl)) {
@@ -45,9 +44,41 @@ public class URLShortener {
 				}
 			}
 		}
-
 		bf.insert(shortUrl);
 		storeURL(shortUrl, longUrl);
 		return shortUrl;
 	}
+	private void storeURL(String shortUrl, String longUrl) {
+		map.put(shortUrl, longUrl);
+	}
+
+	public String shortenedUrlExists(String longUrl) {
+		if (map.containsValue(longUrl)) {
+			for (String str : map.keySet()) {
+				if (map.get(str).equals(longUrl)) {
+					return str;
+				}
+			}
+		}
+		return null;
+	}
+
+	public String getLongUrl(String shortUrl) {
+		if (map.containsKey(shortUrl)) {
+			return map.get(shortUrl);
+		}
+		return null;
+	}
+
+	private String generateCandidateURL(String longUrl) {
+		String candidateOfAll = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789";
+		String candidateUrl = "https://bit.ly/";
+		int numForLongUrl = bf.getSumOfNumericValues(longUrl);
+		Random rand = new Random(numForLongUrl);
+		for (int i = 0; i < sizeOfUrl; i++) {
+			candidateUrl += Character.toString(candidateOfAll.charAt(rand.nextInt(candidateOfAll.length())));
+		}
+		return candidateUrl;
+	}
 }
+
